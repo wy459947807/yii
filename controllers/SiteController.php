@@ -9,7 +9,7 @@ class SiteController extends CommonController implements CommonInterface{
         parent::init();
         //注册服务
         
-    }
+    } 
     
     
     public function actionIndex(){
