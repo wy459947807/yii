@@ -7,7 +7,7 @@ class SiteController extends CommonController implements CommonInterface{
 
     public function init(){
         parent::init();
-        //注册服务
+        //注册服务11333333
         
     } 
     
