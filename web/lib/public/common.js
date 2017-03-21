@@ -34,6 +34,7 @@ function initSubmitForm(formId){
             $.each(errorList, function (i, v) {
                 //msg += (v.message + "\r\n");
                 //在此处用了layer的方法,显示效果更美观
+                v.element.focus();
                 layer.tips(v.message, v.element, { time: 2000 , tips:[3, '#c00']});
                 return false;
             });  
@@ -93,7 +94,7 @@ function ajaxFormSubmit(formId,fromAction,boxId,tempId,append){
         layer_tip("请勿重复操作！");
         return;
     }
-  
+
     if($(formId).valid()){
         var reData={};
         stateInfo.isLock=1;
@@ -186,6 +187,7 @@ function closeWindow(windowId) {
  * @returns {undefined}
  */
 function layer_tip(reInfo,refresh){ 
+    if(!reInfo) return;
     var msg="出现错误，请重试！%>_<%";
     var icon=2;
     if (reInfo) {
