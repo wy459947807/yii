@@ -12,6 +12,7 @@ use yii\httpclient\Client;
 use yii\httpclient\Request;
 use yii\httpclient\RequestEvent;
 use app\common\Rbac;
+use app\common\InstanceFactory;
 
 class CommonController extends Controller {
     public $serviceList=array();//服务列表
@@ -172,40 +173,6 @@ class CommonController extends Controller {
         return $response->getData();//返回数组
         
     }
-
-    //远程服务调用
-    function remoteRequest($url,$data=array(),$method='get'){
-        
-        $client = new Client();
-        $request = $client->createRequest()
-                ->setMethod($method)
-                ->setUrl($url)
-                ->setData($data);
-        
-        
-         // 发送前触发事件  
-        /*$request->on(Request::EVENT_BEFORE_SEND, function (RequestEvent $event) {
-            $data = $event->request->getData();
-
-            $signature = md5(http_build_query($data));
-            $data['signature'] = $signature;
-
-            $event->request->setData($data);
-        });*/
-        
-        // 发送后响应数据  
-        /*$request->on(Request::EVENT_AFTER_SEND, function (RequestEvent $event) {
-            $data = $event->response->getData();
-
-            $data['content'] = base64_decode($data['encoded_content']);
-
-            $event->response->setData($data);
-        });*/
-        
-        $response = $request->send();
-        return $response->getData();//返回数组
-        
-    }
     
     //传入url参数数组返回sign字段值
     public function getSign($array) {
@@ -237,5 +204,19 @@ class CommonController extends Controller {
         return $mapArray;
     }
     
+    //注册实例
+    public function registService($serviceName,$nameSpace="app\service\\"){
+        $this->serviceList[$serviceName]=InstanceFactory::getInstance($nameSpace.$serviceName);
+    }
+    
+    //获取实例
+    public function getService($serviceName){
+        if(isset($this->serviceList[$serviceName])){
+            return $this->serviceList[$serviceName];
+        }
+        return;
+    }
+    
+  
 
 }

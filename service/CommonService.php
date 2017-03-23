@@ -2,9 +2,11 @@
 
 namespace app\service;
 
+use app\common\InstanceFactory;
 use Yii;
 
 class CommonService {
+    public $serviceList=array();//服务列表
     public $result = array(
         "status" => 200, 
         "info" => "操作成功！",
@@ -55,5 +57,21 @@ class CommonService {
         $this->result['data']=$data;
         return $this->result;  
     }
+    
+    
+   
+    //注册实例
+    public function registService($serviceName,$nameSpace="app\service\\"){
+        $this->serviceList[$serviceName]=InstanceFactory::getInstance($nameSpace.$serviceName);
+    }
+    
+    //获取实例
+    public function getService($serviceName){
+        if(isset($this->serviceList[$serviceName])){
+            return $this->serviceList[$serviceName];
+        }
+        return;
+    }
+    
     
 }
